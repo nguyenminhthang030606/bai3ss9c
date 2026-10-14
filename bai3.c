@@ -72,4 +72,73 @@ int main() {
     printf("%-4s %-12s %-25s %-12s %12s %15s\n", 
            "STT", "MA VE", "HO TEN HANH KHACH", "HANG VE", "HANH LY (KG)", "CUOC PHI (VND)");
     printf("----------------------------------------------------------------------------------------------------\n");
-    for
+    for (i = 0; i < n; i++) {
+        printf("%-4d %-12s %-25s %-12s %12.1f %15.0f\n", 
+               i + 1, 
+               danhSachVe[i].maVe, 
+               danhSachVe[i].tenHanhKhach, 
+               danhSachVe[i].hangVe, 
+               danhSachVe[i].canNangHanhLy, 
+               danhSachVe[i].cuocHanhLy);
+    }
+    printf("----------------------------------------------------------------------------------------------------\n");
+    printf("Tong tien cuoc hanh ly toan chuyen: %.0f VND\n", tongCuoc);
+    if (n > 0) {
+        printf("Ve co hanh ly ky gui nang nhat: %s - %s (%.1f kg)\n", 
+               danhSachVe[indexMax].maVe, 
+               danhSachVe[indexMax].tenHanhKhach, 
+               danhSachVe[indexMax].canNangHanhLy);
+    }
+
+    printf("\n--- CAP NHAT THONG TIN HANH LY ---\n");
+    while (getchar() != '\n'); 
+    
+    printf("Nhap ma ve PNR can cap nhat hanh ly: ");
+    scanf("%s", searchPNR);
+
+    for (i = 0; i < n; i++) {
+        if (strcmp(danhSachVe[i].maVe, searchPNR) == 0) {
+            found = 1;
+            do {
+                printf("Nhap can nang hanh ly ky gui moi (kg): ");
+                scanf("%f", &danhSachVe[i].canNangHanhLy);
+                if (danhSachVe[i].canNangHanhLy < 0) {
+                    printf("Loi: Khoi luong khong duoc am. Vui long nhap lai!\n");
+                }
+            } while (danhSachVe[i].canNangHanhLy < 0);
+
+            if (strcmp(danhSachVe[i].hangVe, "Business") == 0) {
+                if (danhSachVe[i].canNangHanhLy > 20.0f) {
+                    danhSachVe[i].cuocHanhLy = (danhSachVe[i].canNangHanhLy - 20.0f) * 50000.0;
+                } else {
+                    danhSachVe[i].cuocHanhLy = 0;
+                }
+            } else {
+                danhSachVe[i].cuocHanhLy = danhSachVe[i].canNangHanhLy * 50000.0;
+            }
+            printf("Tim thay ma ve %s. Da cap nhat cuoc hanh ly moi: %.0f VND.\n", danhSachVe[i].maVe, danhSachVe[i].cuocHanhLy);
+            break;
+        }
+    }
+
+    if (found == 0) {
+        printf("Khong tim thay ma ve PNR nay trong he thong!\n");
+    } else {
+        printf("\n================================ DANH SACH VE MAY BAY SAU CAP NHAT ================================\n");
+        printf("%-4s %-12s %-25s %-12s %12s %15s\n", 
+               "STT", "MA VE", "HO TEN HANH KHACH", "HANG VE", "HANH LY (KG)", "CUOC PHI (VND)");
+        printf("----------------------------------------------------------------------------------------------------\n");
+        for (i = 0; i < n; i++) {
+            printf("%-4d %-12s %-25s %-12s %12.1f %15.0f\n", 
+                   i + 1, 
+                   danhSachVe[i].maVe, 
+                   danhSachVe[i].tenHanhKhach, 
+                   danhSachVe[i].hangVe, 
+                   danhSachVe[i].canNangHanhLy, 
+                   danhSachVe[i].cuocHanhLy);
+        }
+        printf("----------------------------------------------------------------------------------------------------\n");
+    }
+
+    return 0;
+}
